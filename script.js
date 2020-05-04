@@ -1,7 +1,15 @@
 let buttonEl = document.getElementById('button');
+let buttonSigns = document.getElementById('button--signs');
 let inputAreaEl = document.getElementById('input-text');
 let resultEl = document.querySelector('.result');
+
 let text = [];
+let signs = [".", ",", ":", ";", "!", "?", " ", "/"];
+
+const spanBeginSign = `<span class="signs">`;
+const spanEmptyInOpen = `<span class="`
+const spanEmptyInClose = `">`
+const spanExit = `</span>`;
 
 buttonEl.addEventListener('click', function () {
     text = [];
@@ -11,30 +19,51 @@ buttonEl.addEventListener('click', function () {
     showText();
 });
 
+buttonSigns.addEventListener('click', function () {
+    let showsigns = "";
+    
+    for (let i = 0; i < signs.length; i++) {
+        if (signs[i] === " ") {
+            showsigns += spanBeginSign + "&nbsp;" + spanExit + " ";
+        } else {
+            showsigns += spanBeginSign + signs[i] + spanExit + " ";
+        }
+    }
+
+    resultEl.innerHTML = showsigns;
+});
+
 
 function showText() {
     let outputString = "";
-    let spanBeginSign = `<span class="signs">`;
-    let spanBeginShort = `<span class="short">`;
-    let spanExit = `</span>`;
-
+    
     for (let i = 0; i < text.length; i++) {
-        if (text[i].type === "word") {
+        switch (text[i].type) {
+            case "word":
+                let classlist = "";
 
-            let tmpWord = text[i].value;
+                if (text[i].value.length < 4) {
+                    classlist += "short" + " ";
+                }
 
-            if (text[i].value.length < 4) {
-                tmpWord = spanBeginShort + tmpWord + spanExit;
-            }
+                if (text[i].part) {
+                    classlist += text[i].part + " ";
+                }
 
-            if (text[i].part) {
-                tmpWord = `<span class="${text[i].part}">` + tmpWord + spanExit;
-            }
+                if (classlist) {
+                    outputString += spanEmptyInOpen +
+                                    classlist +
+                                    spanEmptyInClose +
+                                    text[i].value +
+                                    spanExit + " ";
+                } else {
+                    outputString += text[i].value + " ";
+                }
+            break;
             
-            outputString += tmpWord + " "
-        
-        } else if (text[i].type === "sign") {
-            outputString += spanBeginSign + text[i].value + spanExit + " ";
+            case "sign":
+                outputString += spanBeginSign + text[i].value + spanExit + " ";
+            break;
         }
     }
 
@@ -44,18 +73,11 @@ function showText() {
 function makeArray(str) {
     
     let tempArrOfChars = str.split('');
-    
     let word = "";
 
     for (let i = 0; i < tempArrOfChars.length; i++) {
 
-        if (tempArrOfChars[i] === "." ||
-            tempArrOfChars[i] === "," ||
-            tempArrOfChars[i] === ":" ||
-            tempArrOfChars[i] === "!" ||
-            tempArrOfChars[i] === "?" ||
-            tempArrOfChars[i] === ";" ||
-            tempArrOfChars[i] === " ") {
+        if (isSign(tempArrOfChars[i])) {
             
             if (word) {
                 text.push({type: "word", value: word});
@@ -76,7 +98,7 @@ function makeArray(str) {
     }
 }
 
-function randomSentensPart() {
+function randomSentensPart() {  
     for (let i = 0; i < text.length; i++) {
         if (text[i].type === "word") {
             let rnd = Math.floor(Math.random() * 5);
@@ -94,4 +116,14 @@ function randomSentensPart() {
             }
         }
     }
+}
+
+function isSign(char) {
+    for (let i = 0; i < signs.length; i++) {
+        if (char === signs[i]) {
+            return true;
+        }
+    }
+
+    return false;
 }
