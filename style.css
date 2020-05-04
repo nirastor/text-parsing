@@ -1,0 +1,33 @@
+.input-text {
+    display: block;
+}
+
+.result {
+    margin-top: 20px;
+    min-height: 200px;
+    border: 1px solid grey;
+}
+
+.signs{
+    font-family: monospace;
+    font-weight: bold;
+    background-color: lightgoldenrodyellow;
+    border: 1px solid darkgoldenrod;
+    border-radius: 3px;
+}
+
+.short {
+    color: red;
+}
+
+.subject {
+    text-decoration: underline solid darkgreen;
+}
+
+.predicate {
+    text-decoration: underline double darkgreen;
+}
+
+.defenition {
+    text-decoration: underline wavy darkgreen;
+}
