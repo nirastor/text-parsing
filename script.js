@@ -1,5 +1,5 @@
 let buttonEl = document.getElementById('button');
-let buttonSigns = document.getElementById('button--signs');
+let buttonSignsEl = document.getElementById('button--signs');
 let inputAreaEl = document.getElementById('input-text');
 let resultEl = document.querySelector('.result');
 
@@ -19,7 +19,7 @@ buttonEl.addEventListener('click', function () {
     showText();
 });
 
-buttonSigns.addEventListener('click', function () {
+buttonSignsEl.addEventListener('click', function () {
     let showsigns = "";
     
     for (let i = 0; i < signs.length; i++) {
@@ -77,7 +77,7 @@ function makeArray(str) {
 
     for (let i = 0; i < tempArrOfChars.length; i++) {
 
-        if (isSign(tempArrOfChars[i])) {
+        if (signs.includes(tempArrOfChars[i])) {
             
             if (word) {
                 text.push({type: "word", value: word});
@@ -116,14 +116,4 @@ function randomSentensPart() {
             }
         }
     }
-}
-
-function isSign(char) {
-    for (let i = 0; i < signs.length; i++) {
-        if (char === signs[i]) {
-            return true;
-        }
-    }
-
-    return false;
 }
